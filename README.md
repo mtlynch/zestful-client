@@ -45,7 +45,7 @@ import json
 import parse_ingredient
 
 ingredients = parse_ingredient.parse_multiple([
-  '2 1/2 tablespoons finely chopped parsley',
+  '½ tsp brown sugar',
   '3 large Granny Smith apples'
   )
 print(json.dumps(ingredients.as_dict()))
@@ -54,20 +54,20 @@ print(json.dumps(ingredients.as_dict()))
 ```json
 [
   {
-    "ingredientRaw": "3 large Granny Smith apples",
+    "ingredientRaw": "½ tsp brown sugar",
     "ingredientParsed": {
         "preparationNotes": "finely chopped",
-        "product": "parsley",
+        "product": "brown sugar",
         "productSizeModifier": null,
-        "quantity": 2.5,
-        "unit": "tablespoon",
+        "quantity": 0.5,
+        "unit": "teaspoon",
         "usdaInfo": {
-            "category": "Vegetables and Vegetable Products",
-            "description": "Parsley, fresh",
-            "fdcId": "170416",
+            "category": "Sweets",
+            "description": "Sugars, brown",
+            "fdcId": "168833",
             "matchMethod": "exact"
         },
-        "confidence": 0.9858154,
+        "confidence": 0.9857134,
     },
     "error": null,
   },
