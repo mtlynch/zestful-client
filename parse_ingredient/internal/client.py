@@ -1,5 +1,5 @@
-from urllib import request
 import json
+from urllib import request
 
 import parse_ingredient.ingredient
 
@@ -88,7 +88,7 @@ class Client:
 
     def _send_request(self, ingredients):
         req = request.Request(self._endpoint_url + '/parseIngredients',
-                              method="POST")
+                              method='POST')
         req.add_header('Content-Type', 'application/json')
 
         if self._rapidapi_key:
@@ -97,6 +97,5 @@ class Client:
 
         body = json.dumps({'ingredients': ingredients})
 
-        response = request.urlopen(req, data=body.encode('utf-8'))
-
-        return json.loads(response.read().decode("utf-8"))
+        with request.urlopen(req, data=body.encode('utf-8')) as response:
+            return json.loads(response.read().decode('utf-8'))
