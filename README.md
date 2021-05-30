@@ -131,7 +131,7 @@ print(json.dumps(ingredient.as_dict()))
 ### From pip
 
 ```bash
-pip install parse-ingredient
+pip install zestful-parse-ingredient
 ```
 
 ### From source
