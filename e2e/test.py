@@ -57,55 +57,48 @@ if SINGLE_RESULT_EXPECTED != SINGLE_RESULT_ACTUAL:
     logger.fatal('\n\texpected result [%s]\n\tactual result [%s]',
                  SINGLE_RESULT_EXPECTED, SINGLE_RESULT_ACTUAL)
 
-logger.info('result=%s', json.dumps(SINGLE_RESULT_ACTUAL.as_dict(), sort_keys=True, indent=2))
+logger.info(
+    'result=%s',
+    json.dumps(SINGLE_RESULT_ACTUAL.as_dict(), sort_keys=True, indent=2))
 
 # Test multiple ingredients
 
-MULTI_INGREDIENT = [
-    '3 large Granny Smith apples',
-    '½ tsp brown sugar'
-]
+MULTI_INGREDIENT = ['3 large Granny Smith apples', '½ tsp brown sugar']
 
 MULTI_RESULT_EXPECTED = parse_ingredient.ingredient.ParsedIngredients(
-        ingredients=[
-            parse_ingredient.ingredient.ParsedIngredientEntry(
-                error=None,
-                raw='3 large Granny Smith apples',
-                parsed=parse_ingredient.ingredient.ParsedIngredient(
-                    confidence=0.9741028,
-                    product='Granny Smith apples',
-                    product_size_modifier='large',
-                    quantity=3.0,
-                    unit=None,
-                    preparation_notes=None,
-                    usda_info=parse_ingredient.ingredient.UsdaInfo(
-                        description='Apples, raw, granny smith, with skin (Includes foods for USDA\'s Food Distribution Program)',
-                        category='Fruits and Fruit Juices',
-                        fdc_id='168203',
-                        match_method='exact'
-                    )
-                )
-            ),
-            parse_ingredient.ingredient.ParsedIngredientEntry(
-                error=None,
-                raw='½ tsp brown sugar',
-                parsed=parse_ingredient.ingredient.ParsedIngredient(
-                    confidence=0.9857134,
-                    product='brown sugar',
-                    product_size_modifier=None,
-                    quantity=0.5,
-                    unit='teaspoon',
-                    preparation_notes=None,
-                    usda_info=parse_ingredient.ingredient.UsdaInfo(
-                        description='Sugars, brown',
-                        category='Sweets',
-                        fdc_id='168833',
-                        match_method='exact'
-                    )
-                )
-            ),
-        ]
-    )
+    ingredients=[
+        parse_ingredient.ingredient.ParsedIngredientEntry(
+            error=None,
+            raw='3 large Granny Smith apples',
+            parsed=parse_ingredient.ingredient.ParsedIngredient(
+                confidence=0.9741028,
+                product='Granny Smith apples',
+                product_size_modifier='large',
+                quantity=3.0,
+                unit=None,
+                preparation_notes=None,
+                usda_info=parse_ingredient.ingredient.UsdaInfo(
+                    description=
+                    'Apples, raw, granny smith, with skin (Includes foods for USDA\'s Food Distribution Program)',
+                    category='Fruits and Fruit Juices',
+                    fdc_id='168203',
+                    match_method='exact'))),
+        parse_ingredient.ingredient.ParsedIngredientEntry(
+            error=None,
+            raw='½ tsp brown sugar',
+            parsed=parse_ingredient.ingredient.ParsedIngredient(
+                confidence=0.9857134,
+                product='brown sugar',
+                product_size_modifier=None,
+                quantity=0.5,
+                unit='teaspoon',
+                preparation_notes=None,
+                usda_info=parse_ingredient.ingredient.UsdaInfo(
+                    description='Sugars, brown',
+                    category='Sweets',
+                    fdc_id='168833',
+                    match_method='exact'))),
+    ])
 
 logger.info('testing multiple ingredients [%s]', MULTI_INGREDIENT)
 MULTI_RESULT_ACTUAL = client.parse_ingredients(MULTI_INGREDIENT)
@@ -113,4 +106,5 @@ if MULTI_RESULT_EXPECTED != MULTI_RESULT_ACTUAL:
     logger.fatal('\n\texpected result [%s]\n\tactual result [%s]',
                  MULTI_RESULT_EXPECTED, MULTI_RESULT_ACTUAL)
 
-logger.info('result=%s', json.dumps(MULTI_RESULT_ACTUAL.as_dict(), sort_keys=True, indent=2))
+logger.info('result=%s',
+            json.dumps(MULTI_RESULT_ACTUAL.as_dict(), sort_keys=True, indent=2))
