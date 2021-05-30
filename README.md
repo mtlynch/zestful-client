@@ -1,6 +1,8 @@
 # Ingredient Parser (Zestful Client)
 
-[![CircleCI](https://circleci.com/gh/mtlynch/zestful-client.svg?style=svg)](https://circleci.com/gh/mtlynch/zestful-client) [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](LICENSE)
+[![PyPI](https://img.shields.io/pypi/v/parse-ingredient)](https://pypi.org/project/parse-ingredient/)
+[![CircleCI](https://circleci.com/gh/mtlynch/zestful-client.svg?style=svg)](https://circleci.com/gh/mtlynch/zestful-client)
+[![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](LICENSE)
 
 ## Installation
 
@@ -26,7 +28,7 @@ pip install .
 import parse_ingredient
 
 ingredient = parse_ingredient.parse('2 1/2 tablespoons finely chopped parsley')
-print(ingredient.as_json())
+print(json.dumps(ingredient.as_dict()))
 ```
 
 ```json
