@@ -13,16 +13,17 @@ class IngredientParserApiError(Error):
 
 
 _DEMO_ENDPOINT_URL = 'https://sandbox.zestfuldata.com'
-_RAPID_API_URL = 'https://zestful.p.rapidapi.com'
+_RAPID_API_DOMAIN = 'zestful.p.rapidapi.com'
+_RAPID_API_URL = 'https://' + _RAPID_API_DOMAIN
 
 
 class Client:
 
     def __init__(self, endpoint_url=None, rapid_api_key=None):
-        self._rapidapi_key = rapid_api_key
+        self._rapid_api_key = rapid_api_key
         if endpoint_url:
             self._endpoint_url = endpoint_url
-        elif self._rapidapi_key:
+        elif self._rapid_api_key:
             self._endpoint_url = _RAPID_API_URL
         else:
             self._endpoint_url = _DEMO_ENDPOINT_URL
@@ -89,13 +90,15 @@ class Client:
     def _send_request(self, ingredients):
         req = request.Request(self._endpoint_url + '/parseIngredients',
                               method='POST')
+
+        body = json.dumps({'ingredients': ingredients}).encode('utf-8')
+
         req.add_header('Content-Type', 'application/json')
+        req.add_header('Content-Length', len(body))
 
-        if self._rapidapi_key:
-            req.add_header('x-rapidapi-key', self._rapidapi_key)
-            req.add_header('x-rapidapi-host', _RAPID_API_URL)
+        if self._rapid_api_key:
+            req.add_header('x-rapidapi-key', self._rapid_api_key)
+            req.add_header('x-rapidapi-host', _RAPID_API_DOMAIN)
 
-        body = json.dumps({'ingredients': ingredients})
-
-        with request.urlopen(req, data=body.encode('utf-8')) as response:
+        with request.urlopen(req, data=body) as response:
             return json.loads(response.read().decode('utf-8'))

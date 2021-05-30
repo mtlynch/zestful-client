@@ -115,6 +115,7 @@ print(json.dumps(ingredient.as_dict()))
 If you have a private Zestful ingredient parsing server as part of an Enterprise plan, you can use the library as follows:
 
 ```python
+import json
 import parse_ingredient
 
 ENDPOINT_URL = 'https://zestful.yourdomain.com'
