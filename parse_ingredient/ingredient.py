@@ -1,5 +1,6 @@
 import dataclasses
 
+
 @dataclasses.dataclass
 class UsdaInfo:
     category: str
@@ -9,11 +10,11 @@ class UsdaInfo:
 
     def as_dict(self):
         return {
-                'category': self.category,
-                'description': self.description,
-                'fdcId': self.fdc_id,
-                'matchMethod': self.match_method,
-            }
+            'category': self.category,
+            'description': self.description,
+            'fdcId': self.fdc_id,
+            'matchMethod': self.match_method,
+        }
 
 
 @dataclasses.dataclass
@@ -28,14 +29,14 @@ class ParsedIngredient:
 
     def as_dict(self):
         return {
-                'confidence': self.confidence,
-                'product': self.product,
-                'productSizeModifier': self.product_size_modifier,
-                'quantity': self.quantity,
-                'unit': self.unit,
-                'preparationNotes': self.preparation_notes,
-                'usda_info': self.usda_info.as_dict(),
-            }
+            'confidence': self.confidence,
+            'product': self.product,
+            'productSizeModifier': self.product_size_modifier,
+            'quantity': self.quantity,
+            'unit': self.unit,
+            'preparationNotes': self.preparation_notes,
+            'usda_info': self.usda_info.as_dict(),
+        }
 
 
 @dataclasses.dataclass
@@ -50,6 +51,7 @@ class ParsedIngredientEntry:
             'raw': self.raw,
             'parsed': self.parsed.as_dict()
         }
+
 
 @dataclasses.dataclass
 class ParsedIngredients:
