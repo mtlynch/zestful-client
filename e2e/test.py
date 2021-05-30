@@ -50,10 +50,10 @@ SINGLE_RESULT_EXPECTED = parse_ingredient.ingredient.ParsedIngredient(
         match_method='exact'),
     confidence=0.9858154)
 
-logger.info('testing single ingredient [%s]', SINGLE_INGREDIENT)
+logger.info('testing single ingredient %s', SINGLE_INGREDIENT)
 SINGLE_RESULT_ACTUAL = client.parse_ingredient(SINGLE_INGREDIENT)
 if SINGLE_RESULT_EXPECTED != SINGLE_RESULT_ACTUAL:
-    logger.fatal('\n\texpected result [%s]\n\tactual result [%s]',
+    logger.fatal('\n\texpected result %s\n\tactual result %s',
                  SINGLE_RESULT_EXPECTED, SINGLE_RESULT_ACTUAL)
 
 logger.info(
@@ -99,11 +99,13 @@ MULTI_RESULT_EXPECTED = parse_ingredient.ingredient.ParsedIngredients(
                     match_method='exact'))),
     ])
 
-logger.info('testing multiple ingredients [%s]', MULTI_INGREDIENT)
+logger.info('testing multiple ingredients %s', MULTI_INGREDIENT)
 MULTI_RESULT_ACTUAL = client.parse_ingredients(MULTI_INGREDIENT)
 if MULTI_RESULT_EXPECTED != MULTI_RESULT_ACTUAL:
-    logger.fatal('\n\texpected result [%s]\n\tactual result [%s]',
+    logger.fatal('\n\texpected result %s\n\tactual result %s',
                  MULTI_RESULT_EXPECTED, MULTI_RESULT_ACTUAL)
 
 logger.info('result=%s',
             json.dumps(MULTI_RESULT_ACTUAL.as_dict(), sort_keys=True, indent=2))
+
+logger.info('all tests pass!')
