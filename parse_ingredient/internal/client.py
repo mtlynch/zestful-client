@@ -1,7 +1,8 @@
-from urllib import request
 import json
+from urllib import request
 
 import parse_ingredient.ingredient
+
 
 class Error(Exception):
     pass
@@ -40,17 +41,18 @@ class Client:
         return parse_ingredient.ingredient.ParsedIngredient(
             confidence=result['confidence'],
             product=result['ingredientParsed']['product'],
-            product_size_modifier=result['ingredientParsed']['productSizeModifier'],
+            product_size_modifier=result['ingredientParsed']
+            ['productSizeModifier'],
             quantity=result['ingredientParsed']['quantity'],
             unit=result['ingredientParsed']['unit'],
             preparation_notes=result['ingredientParsed']['preparationNotes'],
             usda_info=parse_ingredient.ingredient.UsdaInfo(
                 category=result['ingredientParsed']['usdaInfo']['category'],
-                description=result['ingredientParsed']['usdaInfo']['description'],
+                description=result['ingredientParsed']['usdaInfo']
+                ['description'],
                 fdc_id=result['ingredientParsed']['usdaInfo']['fdcId'],
-                match_method=result['ingredientParsed']['usdaInfo']['matchMethod']
-            )
-        )
+                match_method=result['ingredientParsed']['usdaInfo']
+                ['matchMethod']))
 
     def parse_ingredients(self, ingredients):
         results_raw = self._send_request(ingredients)
@@ -66,23 +68,27 @@ class Client:
                     parsed=parse_ingredient.ingredient.ParsedIngredient(
                         confidence=result_raw['confidence'],
                         product=result_raw['ingredientParsed']['product'],
-                        product_size_modifier=result_raw['ingredientParsed']['productSizeModifier'],
+                        product_size_modifier=result_raw['ingredientParsed']
+                        ['productSizeModifier'],
                         quantity=result_raw['ingredientParsed']['quantity'],
                         unit=result_raw['ingredientParsed']['unit'],
-                        preparation_notes=result_raw['ingredientParsed']['preparationNotes'],
+                        preparation_notes=result_raw['ingredientParsed']
+                        ['preparationNotes'],
                         usda_info=parse_ingredient.ingredient.UsdaInfo(
-                            category=result_raw['ingredientParsed']['usdaInfo']['category'],
-                            description=result_raw['ingredientParsed']['usdaInfo']['description'],
-                            fdc_id=result_raw['ingredientParsed']['usdaInfo']['fdcId'],
-                            match_method=result_raw['ingredientParsed']['usdaInfo']['matchMethod']
-                        )
-                    )
-                )
-            )
-        return parse_ingredient.ingredient.ParsedIngredients(ingredients=results)
+                            category=result_raw['ingredientParsed']['usdaInfo']
+                            ['category'],
+                            description=result_raw['ingredientParsed']
+                            ['usdaInfo']['description'],
+                            fdc_id=result_raw['ingredientParsed']['usdaInfo']
+                            ['fdcId'],
+                            match_method=result_raw['ingredientParsed']
+                            ['usdaInfo']['matchMethod']))))
+        return parse_ingredient.ingredient.ParsedIngredients(
+            ingredients=results)
 
     def _send_request(self, ingredients):
-        req = request.Request(self._endpoint_url + '/parseIngredients', method="POST")
+        req = request.Request(self._endpoint_url + '/parseIngredients',
+                              method='POST')
         req.add_header('Content-Type', 'application/json')
 
         if self._rapidapi_key:
@@ -91,6 +97,5 @@ class Client:
 
         body = json.dumps({'ingredients': ingredients})
 
-        response = request.urlopen(req, data=body.encode('utf-8'))
-
-        return json.loads(response.read().decode("utf-8"))
+        with request.urlopen(req, data=body.encode('utf-8')) as response:
+            return json.loads(response.read().decode('utf-8'))

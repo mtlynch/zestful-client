@@ -3,7 +3,6 @@
 import json
 import logging
 import os
-from parse_ingredient import ingredient
 
 import parse_ingredient
 
