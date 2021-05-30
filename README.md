@@ -1,6 +1,6 @@
 # Ingredient Parser (Zestful Client)
 
-[![PyPI](https://img.shields.io/pypi/v/parse-ingredient)](https://pypi.org/project/parse-ingredient/)
+[![PyPI](https://img.shields.io/pypi/v/zestful-parse-ingredient)](https://pypi.org/project/zestful-parse-ingredient/)
 [![CircleCI](https://circleci.com/gh/mtlynch/zestful-client.svg?style=svg)](https://circleci.com/gh/mtlynch/zestful-client)
 [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](LICENSE)
 

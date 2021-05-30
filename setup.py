@@ -5,7 +5,7 @@ import os.path
 import setuptools
 
 setuptools.setup(
-    name='ingredient-parser',
+    name='zestful-parse-ingredient',
     long_description=open(
         os.path.join(os.path.abspath(os.path.dirname(__file__)),
                      'README.md')).read(),
@@ -19,7 +19,7 @@ setuptools.setup(
     author='Michael Lynch',
     author_email='michael@zestfuldata.com',
     license="MIT",
-    keywords="ingredients ingredient parsing recipes nlp",
+    keywords="ingredients ingredient parsing recipes nlp zestful",
     url='https://github.com/mtlynch/zestful-client.git',
     packages=['parse_ingredient', 'parse_ingredient.internal'],
     install_requires=[],
