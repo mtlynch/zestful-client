@@ -37,7 +37,6 @@ print(json.dumps(ingredient.as_dict()))
 }
 ```
 
-
 ### Parse multiple ingredients
 
 ```python
@@ -141,6 +140,14 @@ git clone https://github.com/mtlynch/zestful-client.git
 cd zestful-client
 pip install .
 ```
+
+## How does it work?
+
+The library sends ingredient parsing requests to a remote Zestful ingredient parsing server. By default, the library uses the demo instance of Zestful. For production usage, you should set a RapidAPI key or private Zestful server instance address.
+
+## Limitations
+
+Without a subscription, you can only parse 30 ingredients per day. To parse an unlimited number of ingredients, purchase a subscription from [Zestful](https://zestfuldata.com/docs).
 
 ## Full documentation
 
