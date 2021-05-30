@@ -4,27 +4,16 @@
 [![CircleCI](https://circleci.com/gh/mtlynch/zestful-client.svg?style=svg)](https://circleci.com/gh/mtlynch/zestful-client)
 [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](LICENSE)
 
-## Installation
+## Overview
 
-### From pip
-
-```bash
-pip install parse-ingredient
-```
-
-### From source
-
-```bash
-git clone https://github.com/mtlynch/zestful-client.git
-cd zestful-client
-pip install .
-```
+Parse recipe ingredient strings into structured data.
 
 ## Examples
 
 ### Parse a single ingredient
 
 ```python
+import json
 import parse_ingredient
 
 ingredient = parse_ingredient.parse('2 1/2 tablespoons finely chopped parsley')
@@ -52,10 +41,11 @@ print(json.dumps(ingredient.as_dict()))
 ### Parse multiple ingredients
 
 ```python
+import json
 import parse_ingredient
 
 ingredients = parse_ingredient.parse_multiple([
-  '2 1/2 tablespoons finely chopped parsley',
+  '½ tsp brown sugar',
   '3 large Granny Smith apples'
   )
 print(json.dumps(ingredients.as_dict()))
@@ -64,20 +54,20 @@ print(json.dumps(ingredients.as_dict()))
 ```json
 [
   {
-    "ingredientRaw": "3 large Granny Smith apples",
+    "ingredientRaw": "½ tsp brown sugar",
     "ingredientParsed": {
         "preparationNotes": "finely chopped",
-        "product": "parsley",
+        "product": "brown sugar",
         "productSizeModifier": null,
-        "quantity": 2.5,
-        "unit": "tablespoon",
+        "quantity": 0.5,
+        "unit": "teaspoon",
         "usdaInfo": {
-            "category": "Vegetables and Vegetable Products",
-            "description": "Parsley, fresh",
-            "fdcId": "170416",
+            "category": "Sweets",
+            "description": "Sugars, brown",
+            "fdcId": "168833",
             "matchMethod": "exact"
         },
-        "confidence": 0.9858154,
+        "confidence": 0.9857134,
     },
     "error": null,
   },
@@ -107,6 +97,7 @@ print(json.dumps(ingredients.as_dict()))
 If you have a [RapidAPI subscription](https://rapidapi.com/zestfuldata/api/recipe-and-ingredient-analysis) to Zestful, you can use your API key as follows:
 
 ```python
+import json
 import parse_ingredient
 
 # Replace this with your key from RapidAPI
@@ -116,7 +107,7 @@ RAPID_API_KEY = 'your-rapid-api-key'
 client = parse_ingredient.client(rapid_api_key=RAPID_API_KEY)
 
 ingredient = client.parse_ingredient('2 1/2 tablespoons finely chopped parsley')
-print(ingredient.as_json())
+print(json.dumps(ingredient.as_dict()))
 ```
 
 ### Use private Zestful server
@@ -131,5 +122,25 @@ ENDPOINT_URL = 'https://zestful.yourdomain.com'
 client = parse_ingredient.client(endpoint_url=ENDPOINT_URL)
 
 ingredient = client.parse_ingredient('2 1/2 tablespoons finely chopped parsley')
-print(ingredient.as_json())
+print(json.dumps(ingredient.as_dict()))
 ```
+
+## Installation
+
+### From pip
+
+```bash
+pip install parse-ingredient
+```
+
+### From source
+
+```bash
+git clone https://github.com/mtlynch/zestful-client.git
+cd zestful-client
+pip install .
+```
+
+## Full documentation
+
+For full documentation of each result field, see the official [Zestful API documentation](https://zestfuldata.com/docs).
