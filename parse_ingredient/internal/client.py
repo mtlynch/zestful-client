@@ -8,7 +8,11 @@ class Error(Exception):
     pass
 
 
-class IngredientParserApiError(Error):
+class ZestfulServerError(Error):
+    pass
+
+
+class InsufficientQuotaError(Error):
     pass
 
 
@@ -29,36 +33,44 @@ class Client:
             self._endpoint_url = _DEMO_ENDPOINT_URL
 
     def parse_ingredient(self, ingredient):
-        results = self._send_request([ingredient])
-        if results['error']:
-            raise ValueError('TODO')
-        if len(results['results']) != 1:
-            raise ValueError('Expected only one result')
-        result = results['results'][0]
+        results_raw = self._send_request([ingredient])
+        _check_quota(results_raw)
+        if results_raw['error']:
+            raise ZestfulServerError('failed to parse ingredient: %s' %
+                                     results_raw['error'])
+        if len(results_raw['results']) != 1:
+            raise ValueError(
+                'Unexpected response from server. Expected 1 result, got %d' %
+                len(results_raw['results']))
+        result_raw = results_raw['results'][0]
 
-        if result['error']:
-            raise ValueError('TODO')
+        if result_raw['error']:
+            raise ZestfulServerError('failed to parse ingredient: %s' %
+                                     result_raw['error'])
 
         return parse_ingredient.ingredient.ParsedIngredient(
-            confidence=result['confidence'],
-            product=result['ingredientParsed']['product'],
-            product_size_modifier=result['ingredientParsed']
+            confidence=result_raw['confidence'],
+            product=result_raw['ingredientParsed']['product'],
+            product_size_modifier=result_raw['ingredientParsed']
             ['productSizeModifier'],
-            quantity=result['ingredientParsed']['quantity'],
-            unit=result['ingredientParsed']['unit'],
-            preparation_notes=result['ingredientParsed']['preparationNotes'],
+            quantity=result_raw['ingredientParsed']['quantity'],
+            unit=result_raw['ingredientParsed']['unit'],
+            preparation_notes=result_raw['ingredientParsed']
+            ['preparationNotes'],
             usda_info=parse_ingredient.ingredient.UsdaInfo(
-                category=result['ingredientParsed']['usdaInfo']['category'],
-                description=result['ingredientParsed']['usdaInfo']
+                category=result_raw['ingredientParsed']['usdaInfo']['category'],
+                description=result_raw['ingredientParsed']['usdaInfo']
                 ['description'],
-                fdc_id=result['ingredientParsed']['usdaInfo']['fdcId'],
-                match_method=result['ingredientParsed']['usdaInfo']
+                fdc_id=result_raw['ingredientParsed']['usdaInfo']['fdcId'],
+                match_method=result_raw['ingredientParsed']['usdaInfo']
                 ['matchMethod']))
 
     def parse_ingredients(self, ingredients):
         results_raw = self._send_request(ingredients)
+        _check_quota(results_raw)
         if results_raw['error']:
-            raise ValueError('TODO')
+            raise ZestfulServerError('failed to parse ingredients: %s' %
+                                     results_raw['error'])
 
         results = []
         for result_raw in results_raw['results']:
@@ -102,3 +114,14 @@ class Client:
 
         with request.urlopen(req, data=body) as response:
             return json.loads(response.read().decode('utf-8'))
+
+
+def _check_quota(server_response):
+    if not server_response['error']:
+        return
+    server_error = server_response['error']
+    if 'insufficient quota' in server_error.lower():
+        raise InsufficientQuotaError(
+            'You have insufficient quota to complete this request. '
+            'To continue parsing ingredients, purchase a Zestful plan from '
+            'https://zestfuldata.com')
