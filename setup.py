@@ -10,7 +10,7 @@ setuptools.setup(
         os.path.join(os.path.abspath(os.path.dirname(__file__)),
                      'README.md')).read(),
     long_description_content_type="text/markdown",
-    version='0.0.4',
+    version='0.0.5',
     description=
     'Parse recipe ingredients into structured data (name, quantity, units, preparation notes)',
     project_urls={
