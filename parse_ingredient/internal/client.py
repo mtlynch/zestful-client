@@ -48,15 +48,6 @@ class Client:
             raise ZestfulServerError('failed to parse ingredient: %s' %
                                      result_raw['error'])
 
-        usda_info_raw = result_raw['ingredientParsed']['usdaInfo']
-        usda_info = None
-        if usda_info_raw:
-            usda_info = parse_ingredient.ingredient.UsdaInfo(
-                category=usda_info_raw['category'],
-                description=usda_info_raw['description'],
-                fdc_id=usda_info_raw['fdcId'],
-                match_method=usda_info_raw['matchMethod'])
-
         return parse_ingredient.ingredient.ParsedIngredient(
             confidence=result_raw['confidence'],
             product=result_raw['ingredientParsed']['product'],
@@ -66,7 +57,8 @@ class Client:
             unit=result_raw['ingredientParsed']['unit'],
             preparation_notes=result_raw['ingredientParsed']
             ['preparationNotes'],
-            usda_info=usda_info)
+            usda_info=_parse_usda_info(
+                result_raw['ingredientParsed']['usdaInfo']))
 
     def parse_ingredients(self, ingredients):
         results_raw = self._send_request(ingredients)
@@ -90,15 +82,8 @@ class Client:
                         unit=result_raw['ingredientParsed']['unit'],
                         preparation_notes=result_raw['ingredientParsed']
                         ['preparationNotes'],
-                        usda_info=parse_ingredient.ingredient.UsdaInfo(
-                            category=result_raw['ingredientParsed']['usdaInfo']
-                            ['category'],
-                            description=result_raw['ingredientParsed']
-                            ['usdaInfo']['description'],
-                            fdc_id=result_raw['ingredientParsed']['usdaInfo']
-                            ['fdcId'],
-                            match_method=result_raw['ingredientParsed']
-                            ['usdaInfo']['matchMethod']))))
+                        usda_info=_parse_usda_info(
+                            result_raw['ingredientParsed']['usdaInfo']))))
         return parse_ingredient.ingredient.ParsedIngredients(
             ingredients=results)
 
@@ -117,6 +102,17 @@ class Client:
 
         with request.urlopen(req, data=body) as response:
             return json.loads(response.read().decode('utf-8'))
+
+
+def _parse_usda_info(usda_info_raw):
+    if not usda_info_raw:
+        return None
+
+    return parse_ingredient.ingredient.UsdaInfo(
+        category=usda_info_raw['category'],
+        description=usda_info_raw['description'],
+        fdc_id=usda_info_raw['fdcId'],
+        match_method=usda_info_raw['matchMethod'])
 
 
 def _check_quota(server_response):
