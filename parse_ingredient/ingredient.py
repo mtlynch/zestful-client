@@ -35,7 +35,7 @@ class ParsedIngredient:
             'quantity': self.quantity,
             'unit': self.unit,
             'preparationNotes': self.preparation_notes,
-            'usda_info': self.usda_info.as_dict(),
+            'usda_info': self.usda_info.as_dict() if self.usda_info else None,
         }
 
 

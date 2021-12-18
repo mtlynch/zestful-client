@@ -62,7 +62,11 @@ logger.info(
 
 # Test multiple ingredients
 
-MULTI_INGREDIENT = ['3 large Granny Smith apples', '½ tsp brown sugar']
+MULTI_INGREDIENT = [
+    '3 large Granny Smith apples',
+    '½ tsp brown sugar',
+    'Balduferus Cherries',  # Ensure no USDA match
+]
 
 MULTI_RESULT_EXPECTED = parse_ingredient.ingredient.ParsedIngredients(
     ingredients=[
@@ -97,6 +101,17 @@ MULTI_RESULT_EXPECTED = parse_ingredient.ingredient.ParsedIngredients(
                     category='Sweets',
                     fdc_id='168833',
                     match_method='exact'))),
+        parse_ingredient.ingredient.ParsedIngredientEntry(
+            error=None,
+            raw='Balduferus Cherries',
+            parsed=parse_ingredient.ingredient.ParsedIngredient(
+                confidence=0.902782,
+                product='Balduferus Cherries',
+                product_size_modifier=None,
+                quantity=None,
+                unit=None,
+                preparation_notes=None,
+                usda_info=None)),
     ])
 
 logger.info('testing multiple ingredients %s', MULTI_INGREDIENT)
