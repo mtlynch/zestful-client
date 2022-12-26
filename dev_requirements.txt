@@ -1,4 +1,4 @@
-isort[requirements_deprecated_finder]==5.11.3
+isort[requirements_deprecated_finder]==5.11.4
 pyflakes==3.0.1
 pylint==2.8.2
 pylint-quotes==0.2.3
