@@ -2,7 +2,7 @@
 
 ## Requirements
 
-* Python 3.7 or higher
+* Python 3.9 or higher
 * python3-virtualenv
 
 ## Set up a development environment

@@ -13,7 +13,7 @@ jobs:
           command: ./dev-scripts/check-trailing-newline
   build_python:
     docker:
-      - image: circleci/python:3.7.3
+      - image: cimg/python:3.9.17
     steps:
       - checkout
       - run:
@@ -27,7 +27,7 @@ jobs:
             ./dev-scripts/build-python
   e2e:
     docker:
-      - image: circleci/python:3.7.3
+      - image: cimg/python:3.9.17
     steps:
       - checkout
       - run:
@@ -41,7 +41,7 @@ jobs:
             ./e2e/test.py
   prepare_pypi_package:
     docker:
-      - image: circleci/python:3.7.3
+      - image: cimg/python:3.9.17
     steps:
       - checkout
       - run:
@@ -64,7 +64,7 @@ jobs:
             - dist
   publish:
     docker:
-      - image: circleci/python:3.7.3
+      - image: cimg/python:3.9.17
     steps:
       - attach_workspace:
           at: .
